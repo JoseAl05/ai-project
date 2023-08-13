@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Montserrat } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { LayoutDashboard,MessageSquare,ImageIcon,VideoIcon,Music,Code,Settings } from 'lucide-react';
 
 const monsterrat = Montserrat({ weight: '600', subsets: ['latin'] });
@@ -53,6 +54,9 @@ const routes = [
 ]
 
 const Sidebar = () => {
+
+    const pathname = usePathname();
+
     return (
         <div className='flex flex-col h-full p-4 space-y-4 bg-[#111827] text-white'>
             <div className='px-3 py-2 flex-1'>
@@ -64,14 +68,14 @@ const Sidebar = () => {
                             src='/logo.png'
                         />
                     </div>
-                    <h1 className={cn('text-2xl font-bold',monsterrat.className)}>SynthAI</h1>
+                    <h1 className={cn('text-2xl font-bold',monsterrat.className)}>Aetherial</h1>
                 </Link>
                 <div className='space-y-1'>
                     {routes.map(route => (
                         <Link
                             key={route.href}
                             href={route.href}
-                            className='
+                            className={cn(`
                                 flex
                                 justify-start
                                 p-3
@@ -84,7 +88,9 @@ const Sidebar = () => {
                                 transition
                                 hover:text-white
                                 hover:bg-white/10
-                            '
+                            `,
+                            pathname === route.href ? 'text-white bg-white/10' : 'text-zinc-400'
+                            )}
                         >
                             <div className='flex items-center flex-1'>
                                 <route.icon className={cn('h-5 w-5 mr-3',route.color)}/>
