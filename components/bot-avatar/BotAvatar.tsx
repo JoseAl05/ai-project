@@ -5,7 +5,7 @@ const BotAvatar = () => {
         <Avatar className='h-12 w-12'>
             <AvatarImage
                 className=''
-                src='/logo(1).png'
+                src='/logo.png'
             />
         </Avatar>
     );
