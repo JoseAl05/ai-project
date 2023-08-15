@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useModal } from '@/hooks/useModal';
 import toast from 'react-hot-toast';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog';
+import { ArrowRight, Code, ImageIcon, MessageSquare, Music, VideoIcon } from 'lucide-react'
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
 import { cn } from '@/lib/utils';
