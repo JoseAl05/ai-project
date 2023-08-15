@@ -5,7 +5,8 @@ import { Montserrat } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard,MessageSquare,ImageIcon,VideoIcon,Music,Code,Settings } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, ImageIcon, VideoIcon, Music, Code, Settings } from 'lucide-react';
+import FreeCounter from '../counter/FreeCounter';
 
 const monsterrat = Montserrat({ weight: '600', subsets: ['latin'] });
 
@@ -53,7 +54,12 @@ const routes = [
     }
 ]
 
-const Sidebar = () => {
+interface SidebarProps {
+    apiLimitCount: number;
+    isPro: boolean;
+}
+
+const Sidebar = ({ apiLimitCount = 0, isPro = false }: SidebarProps) => {
 
     const pathname = usePathname();
 
@@ -68,7 +74,7 @@ const Sidebar = () => {
                             src='/logo.png'
                         />
                     </div>
-                    <h1 className={cn('text-2xl font-bold',monsterrat.className)}>Aetherial</h1>
+                    <h1 className={cn('text-2xl font-bold', monsterrat.className)}>Aetherial</h1>
                 </Link>
                 <div className='space-y-1'>
                     {routes.map(route => (
@@ -89,17 +95,21 @@ const Sidebar = () => {
                                 hover:text-white
                                 hover:bg-white/10
                             `,
-                            pathname === route.href ? 'text-white bg-white/10' : 'text-zinc-400'
+                                pathname === route.href ? 'text-white bg-white/10' : 'text-zinc-400'
                             )}
                         >
                             <div className='flex items-center flex-1'>
-                                <route.icon className={cn('h-5 w-5 mr-3',route.color)}/>
+                                <route.icon className={cn('h-5 w-5 mr-3', route.color)} />
                                 {route.label}
                             </div>
                         </Link>
                     ))}
                 </div>
             </div>
+            <FreeCounter
+                apiLimitCount={apiLimitCount}
+                isPro={isPro}
+            />
         </div>
     );
 }
