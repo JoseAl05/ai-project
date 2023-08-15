@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation';
 import { amounts, formSchema, resolutions } from './constants';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { useModal } from '@/hooks/useModal';
+import toast from 'react-hot-toast';
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -25,6 +27,7 @@ const ImagePage = () => {
 
     const router = useRouter();
     const [images, setImages] = useState<string[]>([]);
+    const modal = useModal();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -49,8 +52,10 @@ const ImagePage = () => {
 
             form.reset();
         } catch (error: any) {
-            // TO-DO: Open Pro Modal
-            console.log(error);
+            if(error?.response?.status === 403) {
+                modal.onOpen();
+            }
+            toast.error(`Something went wrong. Error code: ${error?.response?.status}`);
         } finally {
             router.refresh();
         }

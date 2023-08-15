@@ -8,6 +8,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useModal } from '@/hooks/useModal';
+import toast from 'react-hot-toast';
 
 import { formSchema } from './constants';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -21,7 +23,8 @@ import { cn } from '@/lib/utils';
 const MusicPage = () => {
 
     const router = useRouter();
-    const [music, setMusic] = useState<string>()
+    const [music, setMusic] = useState<string>();
+    const modal = useModal();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -42,8 +45,10 @@ const MusicPage = () => {
 
             form.reset();
         } catch (error: any) {
-            // TO-DO: Open Pro Modal
-            console.log(error);
+            if(error?.response?.status === 403) {
+                modal.onOpen();
+            }
+            toast.error(`Something went wrong. Error code: ${error?.response?.status}`);
         } finally {
             router.refresh();
         }

@@ -1,5 +1,6 @@
 'use client'
 
+import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Code } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -9,6 +10,8 @@ import { useForm } from 'react-hook-form';
 import { cn } from '@/lib/utils';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import { useModal } from '@/hooks/useModal';
+import toast from 'react-hot-toast';
 
 import BotAvatar from '@/components/bot-avatar/BotAvatar';
 import EmptyState from '@/components/empty-state/EmptyState';
@@ -23,7 +26,8 @@ import { formSchema } from './constants';
 const CodePage = () => {
 
     const router = useRouter();
-    const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([])
+    const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+    const modal = useModal();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -50,8 +54,10 @@ const CodePage = () => {
             setMessages((current) => [...current, userMessage, response.data]);
             form.reset();
         } catch (error: any) {
-            // TO-DO: Open Pro Modal
-            console.log(error);
+            if(error?.response?.status === 403) {
+                modal.onOpen();
+            }
+            toast.error(`Something went wrong. Error code: ${error?.response?.status}`);
         } finally {
             router.refresh();
         }
