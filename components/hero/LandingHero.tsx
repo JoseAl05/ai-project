@@ -15,7 +15,7 @@ const LandingHero = () => {
                 <h1>
                     The Best AI Tool for
                 </h1>
-                <div className='text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>
+                <div className='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-700'>
                     <TypewriterComponent
                         options={{
                             strings: [
