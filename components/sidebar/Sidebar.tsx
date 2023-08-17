@@ -5,7 +5,7 @@ import { Montserrat } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, MessageSquare, ImageIcon, VideoIcon, Music, Code, Settings } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, ImageIcon, VideoIcon, Music, Code, Settings, Text, Languages } from 'lucide-react';
 import FreeCounter from '../counter/FreeCounter';
 
 const monsterrat = Montserrat({ weight: '600', subsets: ['latin'] });
@@ -52,6 +52,21 @@ const routes = [
         icon: Settings,
         href: '/settings',
     }
+]
+
+const freeRoutes = [
+    {
+        label: 'Text Converter',
+        icon: Text,
+        href: '/text-converter',
+        color: 'text-white',
+    },
+    {
+        label: 'Translator',
+        icon: Languages,
+        href: '/translator',
+        color: 'text-cyan-500',
+    },
 ]
 
 interface SidebarProps {
@@ -104,6 +119,40 @@ const Sidebar = ({ apiLimitCount = 0, isPro = false }: SidebarProps) => {
                             </div>
                         </Link>
                     ))}
+                    <div className='flex items-center justify-center gap-5'>
+                        <hr className='h-2 w-full text-zinc-400' />
+                        <h1 className='text-lg whitespace-nowrap text-center mb-3'>Free Tools</h1>
+                        <hr className='h-2 w-full text-zinc-400' />
+                    </div>
+                    {
+                        freeRoutes.map(route => (
+                            <Link
+                                key={route.href}
+                                href={route.href}
+                                className={cn(`
+                                flex
+                                justify-start
+                                p-3
+                                w-full
+                                text-sm
+                                font-medium
+                                rounded-lg
+                                cursor-pointer
+                                group
+                                transition
+                                hover:text-white
+                                hover:bg-white/10
+                            `,
+                                    pathname === route.href ? 'text-white bg-white/10' : 'text-zinc-400'
+                                )}
+                            >
+                                <div className='flex items-center flex-1'>
+                                    <route.icon className={cn('h-5 w-5 mr-3', route.color)} />
+                                    {route.label}
+                                </div>
+                            </Link>
+                        ))
+                    }
                 </div>
             </div>
             <FreeCounter
