@@ -5,6 +5,8 @@ import { Inter } from 'next/font/google'
 import ModalProvider from '@/components/modal/ModalProvider'
 import ToastProvider from '@/components/toaster/ToastProvider'
 import CrispProvider from '@/components/crisp/CrispProvider'
+import { Suspense } from 'react'
+import LoadingPage from './loading'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,7 +27,9 @@ export default function RootLayout({
         <body className={inter.className}>
           <ModalProvider />
           <ToastProvider />
-          {children}
+          <Suspense fallback={<LoadingPage />}>
+            {children}
+          </Suspense>
         </body>
       </html>
     </ClerkProvider>
