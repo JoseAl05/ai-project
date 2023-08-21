@@ -11,7 +11,9 @@ interface TranslateResultsProps {
 const TranslateResults = ({ message }: TranslateResultsProps) => {
 
     const onCopy = (message:string) => {
-        const copyMessage = navigator.clipboard.writeText(message);
+        const indexOfTranslation = message.indexOf(`Translation:`);
+        const formattedMessage = message.slice(indexOfTranslation).slice(13);
+        const copyMessage = navigator.clipboard.writeText(formattedMessage);
         toast.promise(copyMessage,{
             success:'Message copied to the clipboard',
             loading:'Copying...',

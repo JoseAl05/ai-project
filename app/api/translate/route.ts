@@ -19,7 +19,14 @@ export async function POST(req: Request) {
     }
     const response = await openai.createCompletion({
       model: 'text-davinci-003',
-      prompt: `Translate this '${message}' into ${language}`,
+      prompt: `
+        Correct the grammatical and writing errors you find in the following text:'${message}' and please explain the errors.
+        Also translate the text provided into ${language}.
+        Please use this format for your response:
+        Error: Explain the error,
+        Correction: Error correction,
+        Translation: Text translated
+        `,
       temperature: 0.3,
       max_tokens: 1000,
     });
