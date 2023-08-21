@@ -48,7 +48,6 @@ const MusicPage = () => {
             if(error?.response?.status === 403) {
                 modal.onOpen();
             }
-            toast.error(`Something went wrong. Error code: ${error?.response?.status}`);
         } finally {
             router.refresh();
         }
